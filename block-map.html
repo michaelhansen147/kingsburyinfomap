@@ -204,6 +204,9 @@
   .card.float-above{
     transform:translate(-50%, calc(-100% - 16px));
   }
+  .card.float-below{
+    transform:translate(-50%, 16px);
+  }
   .card.show{
     opacity:1;
     pointer-events:auto;
@@ -578,12 +581,21 @@ function openCard(a, pinEl){
   let left, top;
   if (a.cardPos) {
     card.classList.remove('float-above');
+    card.classList.remove('float-below');
     left = Math.max(1, Math.min(a.cardPos.x, 100 - cardWidthPct - 1));
     top = Math.max(1, Math.min(a.cardPos.y, 78));
   } else {
-    card.classList.add('float-above');
     left = Math.max(cardWidthPct / 2 + 1, Math.min(a.x, 100 - cardWidthPct / 2 - 1));
-    top = Math.max(a.y, 14); // keep card from running off the top edge
+    if (a.y < 40) {
+      // too close to the top to float above without getting cut off — drop it below instead
+      card.classList.remove('float-above');
+      card.classList.add('float-below');
+      top = a.y;
+    } else {
+      card.classList.add('float-above');
+      card.classList.remove('float-below');
+      top = Math.max(a.y, 14);
+    }
   }
 
   card.style.left = left + '%';
