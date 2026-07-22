@@ -560,7 +560,7 @@ function openCard(a, pinEl){
   document.querySelectorAll('.legend button').forEach(b => b.classList.toggle('active', b.dataset.group === groupKey));
   drawConnectors(a);
 
-  document.getElementById('cardTag').textContent = 'Property attribute';
+  document.getElementById('cardTag').textContent = '';
   document.getElementById('cardTitle').textContent = a.title;
   document.getElementById('cardBody').textContent = a.body;
 
