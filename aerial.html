@@ -187,16 +187,19 @@
   /* Detail card */
   .card{
     position:absolute;
-    width:min(300px, 78vw);
+    width:min(260px, 72vw);
+    max-height:min(220px, 60vh);
+    overflow-y:auto;
     background:var(--panel-bg);
     border:1px solid var(--line);
     border-top:2px solid var(--gold-bright);
-    padding:18px 18px 16px;
+    padding:14px 14px 12px;
     z-index:10;
     opacity:0;
     pointer-events:none;
     transition:opacity 0.16s ease;
     backdrop-filter: blur(6px);
+    box-sizing:border-box;
   }
   .card.float-above{
     transform:translate(-50%, calc(-100% - 16px));
@@ -215,33 +218,33 @@
   .card h3{
     font-family:'Fraunces',serif;
     font-weight:500;
-    font-size:19px;
-    margin:4px 0 10px 0;
+    font-size:16px;
+    margin:2px 0 6px 0;
     color:var(--stone);
   }
   .card p{
-    font-size:13px;
-    line-height:1.55;
-    margin:0 0 10px 0;
+    font-size:12px;
+    line-height:1.4;
+    margin:0 0 6px 0;
     color:rgba(237,232,220,0.88);
   }
   .card .stats{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:8px 14px;
-    margin-top:12px;
-    padding-top:12px;
+    gap:5px 10px;
+    margin-top:6px;
+    padding-top:6px;
     border-top:1px solid var(--line);
   }
   .card .stat b{
     display:block;
     font-family:'IBM Plex Mono',monospace;
-    font-size:13.5px;
+    font-size:12px;
     color:var(--gold-bright);
   }
   .card .stat span{
     display:block;
-    font-size:10.5px;
+    font-size:9.5px;
     color:rgba(237,232,220,0.6);
     text-transform:uppercase;
     letter-spacing:0.06em;
@@ -650,12 +653,12 @@ function openCard(a, pinEl){
   });
 
   const stageRect = stage.getBoundingClientRect();
-  const cardWidthPct = 300 / stageRect.width * 100;
+  const cardWidthPct = 260 / stageRect.width * 100;
   let left, top;
   if (a.cardPos) {
     card.classList.remove('float-above');
-    left = a.cardPos.x;
-    top = a.cardPos.y;
+    left = Math.max(1, Math.min(a.cardPos.x, 100 - cardWidthPct - 1));
+    top = Math.max(1, Math.min(a.cardPos.y, 78));
   } else {
     card.classList.add('float-above');
     left = Math.max(cardWidthPct / 2 + 1, Math.min(a.x, 100 - cardWidthPct / 2 - 1));
