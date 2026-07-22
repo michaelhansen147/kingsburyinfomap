@@ -586,15 +586,21 @@ function openCard(a, pinEl){
     top = Math.max(1, Math.min(a.cardPos.y, 78));
   } else {
     left = Math.max(cardWidthPct / 2 + 1, Math.min(a.x, 100 - cardWidthPct / 2 - 1));
-    if (a.y < 40) {
-      // too close to the top to float above without getting cut off — drop it below instead
+
+    // Measure real available space instead of guessing off a fixed percentage
+    const cardHeightPx = card.offsetHeight || 150;
+    const spaceAbovePx = (a.y / 100) * stageRect.height;
+    const spaceBelowPx = stageRect.height - spaceAbovePx;
+    const needed = cardHeightPx + 16;
+
+    if (spaceAbovePx >= needed || spaceAbovePx >= spaceBelowPx) {
+      card.classList.add('float-above');
+      card.classList.remove('float-below');
+      top = a.y;
+    } else {
       card.classList.remove('float-above');
       card.classList.add('float-below');
       top = a.y;
-    } else {
-      card.classList.add('float-above');
-      card.classList.remove('float-below');
-      top = Math.max(a.y, 14);
     }
   }
 
