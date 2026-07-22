@@ -265,31 +265,38 @@
   /* Legend / index — doubles as accessible, tap-friendly alternative to pins */
   .legend{
     position:absolute;
-    bottom:0; left:0;
+    bottom: clamp(10px,2vw,20px);
+    right: clamp(10px,2vw,20px);
+    left:auto;
     z-index:5;
-    width:100%;
-    padding: clamp(10px,2.2vw,22px);
+    width:auto;
+    max-width:70%;
+    padding:0;
     display:flex;
-    flex-wrap:nowrap;
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    gap:8px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    gap:6px;
     box-sizing:border-box;
   }
   .legend::-webkit-scrollbar{ display:none; }
-  .legend button{ flex:0 0 auto; }
-  .stage.aerial .legend{
-    background:linear-gradient(0deg, rgba(10,11,7,0.78) 0%, rgba(10,11,7,0) 100%);
+  .legend button{
+    flex:0 0 auto;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
   .legend button{
     font-family:'IBM Plex Mono',monospace;
-    font-size:11px;
+    font-size:12px;
     letter-spacing:0.03em;
     color:var(--stone);
-    background:rgba(20,22,16,0.55);
+    background:rgba(20,22,16,0.72);
     border:1px solid var(--line);
-    padding:7px 11px;
+    padding:0;
     cursor:pointer;
     transition:border-color 0.15s ease, color 0.15s ease;
   }
@@ -593,7 +600,8 @@ function render(viewName){
     seenGroups.add(groupKey);
 
     const btn = document.createElement('button');
-    btn.textContent = badge + ' — ' + a.label;
+    btn.textContent = badge;
+    btn.title = a.label;
     btn.dataset.id = a.id;
     btn.dataset.group = groupKey;
     btn.addEventListener('click', () => openCard(a, pin));
